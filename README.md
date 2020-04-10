@@ -1,1 +1,1 @@
-# WebServicePlatform - First half of 2020
+# WebServicePlatform - First half-year of 2020
