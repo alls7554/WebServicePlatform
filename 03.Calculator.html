@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <script>
+        var text1 = ""; //첫번째 피연산자
+        var op = ""; //연산자
+        var text2 = ""; //두번째 피연산자
+        var result = ""; //결과
+        var isDotSelected = false; //실수판단여부
+    
+        function selectedBtn(id) {
+            if(id==".") {
+                isDotSelected = true;
+            }
+            if (op == "") { //첫번째 피 연산자 구분
+                text1 += id;
+            } else {
+                text2 += id;
+            } // end of if ~ else    
+        
+            document.getElementById('result1').value = document.getElementById('result1').value + id;
+        
+        } //end of selectedBtn function
+    
+        function selectedOp(id) {
+            op = id;
+            document.getElementById('result1').value = text1 + " " + op + " "; 
+        } //end of selectedOp function
+    
+        function back(){
+            if (op == "") { //첫번째 피 연산자 구분
+                text1 = text1.substring(0, text1.length-1);
+                document.getElementById('result1').value = text1;
+            } 
+            
+            else {
+                if(text2 != ""){
+                    text2 = text2.substring(0, text2.length-1);
+                    document.getElementById('result1').value = text1 + " " + op + " " + text2;
+                }
+                else{
+                    op = "";
+                    document.getElementById('result1').value = text1;
+                }
+            } // end of if ~ else 
+        }
+ 
+        function clearAll() {
+            text1 = "";
+            text2 = "";
+            op = "";
+            result = "";
+            document.getElementById('result1').value = "";
+            document.getElementById('result2').value = "";
+        }
+    
+        function getResult() {
+            result = text1 + op + text2;
+    
+            if(isDotSelected) { //실수
+                document.getElementById('result1').value = document.getElementById('result1').value + " = " + eval(result).toFixed(3);
+                document.getElementById('result2').value = document.getElementById('result2').value + eval(result).toFixed(3);
+            } else {
+                document.getElementById('result1').value = document.getElementById('result1').value + " = " + eval(result);
+                document.getElementById('result2').value = document.getElementById('result2').value + eval(result);
+            }
+        
+            text1 = eval(result);
+            op="";
+            text2="";
+            result = "";
+        
+            isDotSelected = false;
+        
+        } //end of getResult function
+    </script>
+    <style>
+        *{
+            align-content: center;
+        }
+        .number{
+            width: 41px; height: 37px;
+        }
+        #calc-area{
+            float: left;
+        }
+        #result-area > input{
+            float: left;
+            height: 157px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="calc-area">
+            <table>
+                <tr>
+                    <td><input class="number" type="button" value="1" id="1" onclick=selectedBtn(1)></td>
+                    <td><input class="number" type="button" value="2" id="2" onclick=selectedBtn(2)></td>
+                    <td><input class="number" type="button" value="3" id="3" onclick=selectedBtn(3)></td>
+                    <td><input type="button" value="+" class="number" id="plus" onclick=selectedOp("+")></td>
+                    <td><input type="button" value="Clear" style="width: 50px; height: 37px;" onclick=clearAll()></td>
+                </tr>
+                <tr>
+                    <td><input class="number" type="button" value="4" id="4" onclick=selectedBtn(4)></td>
+                    <td><input class="number" type="button" value="5" id="5" onclick=selectedBtn(5)></td>
+                    <td><input class="number" type="button" value="6" id="6" onclick=selectedBtn(6)></td>
+                    <td><input type="button" value="-" class="number" id="minus" onclick=selectedOp("-")></td>
+                    <td><input type="button" value="back" style="width: 50px; height: 37px;" onclick=back()></td>
+                </tr>
+                <tr>
+                    <td><input class="number" type="button" value="7" id="7" onclick=selectedBtn(7)></td>
+                    <td><input class="number" type="button" value="8" id="8" onclick=selectedBtn(8)></td>
+                    <td><input class="number" type="button" value="9" id="9" onclick=selectedBtn(9)></td>
+                    <td><input type="button" value="*" class="number" id="multi" onclick=selectedOp("*")></td>
+                    <td rowspan="2"><input type="button" value="result" style="width: 50px; height: 78px;" onclick=getResult()></td>
+                </tr>
+                <tr>
+                    <td colspan = "2"><input class="number" type="button" id="0" value="0" style="width: 86px;" onclick=selectedBtn(0)></td>
+                    <td><input class="number" type="button" id="dot" value="." onclick=selectedBtn(".")></td>
+                    <td><input type="button" value="/" class="number" id="devide" onclick=selectedOp("/")></td>
+                </tr>
+            </table>
+        </div>
+        <div id="result-area">
+            <div>
+                <input type="text" id="result1" style="height: 133px;">
+            </div>
+            <div>
+                <input type="text" id="result2">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
